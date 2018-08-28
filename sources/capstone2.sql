@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2018 at 11:44 AM
+-- Generation Time: Aug 28, 2018 at 08:06 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -93,7 +93,7 @@ CREATE TABLE `payment_methods` (
 
 CREATE TABLE `players` (
   `id` int(11) NOT NULL,
-  `user_details_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `team_id` int(11) DEFAULT NULL,
   `league_id` int(11) DEFAULT NULL,
   `jersey_number` int(11) NOT NULL,
@@ -166,23 +166,12 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role_id` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users_details`
---
-
-CREATE TABLE `users_details` (
-  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL DEFAULT '1',
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `contact_number` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `contact_number` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -230,7 +219,7 @@ ALTER TABLE `payment_methods`
 --
 ALTER TABLE `players`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `players_fk0` (`user_details_id`),
+  ADD KEY `players_fk0` (`user_id`),
   ADD KEY `players_fk1` (`team_id`),
   ADD KEY `players_fk2` (`league_id`),
   ADD KEY `players_fk3` (`transaction_code`);
@@ -267,15 +256,8 @@ ALTER TABLE `team`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
-  ADD KEY `users_fk0` (`role_id`);
-
---
--- Indexes for table `users_details`
---
-ALTER TABLE `users_details`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `users_details_fk0` (`user_id`);
+  ADD KEY `users_fk0` (`role_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -348,12 +330,6 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users_details`
---
-ALTER TABLE `users_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
@@ -376,7 +352,7 @@ ALTER TABLE `order_details`
 -- Constraints for table `players`
 --
 ALTER TABLE `players`
-  ADD CONSTRAINT `players_fk0` FOREIGN KEY (`user_details_id`) REFERENCES `users_details` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `players_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `players_fk1` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `players_fk2` FOREIGN KEY (`league_id`) REFERENCES `leagues` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `players_fk3` FOREIGN KEY (`transaction_code`) REFERENCES `orders` (`transaction_code`) ON UPDATE CASCADE;
@@ -392,12 +368,6 @@ ALTER TABLE `products`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_fk0` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `users_details`
---
-ALTER TABLE `users_details`
-  ADD CONSTRAINT `users_details_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,18 +2,12 @@ CREATE TABLE `users` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`username` varchar(255) NOT NULL UNIQUE,
 	`password` varchar(255) NOT NULL,
-	`role_id` INT NOT NULL DEFAULT 1,
-	PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `users_details` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`role_id` INT NOT NULL DEFAULT '1',
 	`first_name` varchar(255) NOT NULL,
 	`last_name` varchar(255) NOT NULL,
-	`user_id` INT NOT NULL,
 	`email` varchar(255) NOT NULL UNIQUE,
-	`contact_number` varchar(255) NOT NULL,
-	`address` varchar(255) NOT NULL,
+	`contact_number` varchar(255),
+	`address` varchar(255),
 	PRIMARY KEY (`id`)
 );
 
@@ -85,7 +79,7 @@ CREATE TABLE `team` (
 
 CREATE TABLE `players` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`user_details_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`team_id` INT,
 	`league_id` INT,
 	`jersey_number` INT NOT NULL,
@@ -93,9 +87,12 @@ CREATE TABLE `players` (
 	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `users` ADD CONSTRAINT `users_fk0` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE `users_details` ADD CONSTRAINT `users_details_fk0` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'user'),
+(2, 'admin');
+
+ALTER TABLE `users` ADD CONSTRAINT `users_fk0` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE `products` ADD CONSTRAINT `products_fk0` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`) ON UPDATE CASCADE ON DELETE SET NULL;
 
@@ -109,7 +106,7 @@ ALTER TABLE `order_details` ADD CONSTRAINT `order_details_fk0` FOREIGN KEY (`pro
 
 ALTER TABLE `order_details` ADD CONSTRAINT `order_details_fk1` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE `players` ADD CONSTRAINT `players_fk0` FOREIGN KEY (`user_details_id`) REFERENCES `users_details`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE `players` ADD CONSTRAINT `players_fk0` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE `players` ADD CONSTRAINT `players_fk1` FOREIGN KEY (`team_id`) REFERENCES `team`(`id`) ON UPDATE CASCADE ON DELETE SET NULL;
 

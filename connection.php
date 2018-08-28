@@ -2,7 +2,7 @@
 	$host = "localhost";
 	$usernamedb = "root";
 	$passworddb = "";
-	$dbname = "db_capstone2";
+	$dbname = "capstone2";
 
 
 	$conn = mysqli_connect($host, $usernamedb, $passworddb, $dbname);
