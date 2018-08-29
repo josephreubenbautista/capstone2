@@ -4,14 +4,11 @@
 
 <?php 
 function get_title(){
-	echo "Login";
+	echo "Jcube Basketball | Home";
 }
 
 
 function get_content(){
-	if (isset($_SESSION['logged_in_user'])){ 
-		echo "<h1>WELCOME TO MCDO ".$_SESSION['logged_in_user']."</h1>";
-	}else{
 ?>
 		<h1>Welcome Guest!!!</h1>
 <?php 
@@ -20,26 +17,59 @@ function get_content(){
 			unset($_SESSION['error_message']);
 		}
 ?>
-		<form action="controllers/authenticate.php" method="POST">
-			<div class="input-group">
-				<label for="username">Username: </label>
-				<input class="form-control" id="username" name="username" required>
-			</div>
-			<div class="input-group">
-				<label for="password">Password: </label>
-				<input class="form-control" type="password" id="password" name="password" required>
-			</div>
-			<div class="input-group">
-				<button>Submit</button>
-			</div>
-		</form>
 <?php
-	}
-?>
 	
+?>
+	<div class="carousel">
+		
+
+	</div>
 <?php 
 
 } 
+
+
+
+function get_content_admin(){
+
+	echo "<h1>WELCOME TO MCDO ".$_SESSION['logged_in_user']."</h1>";
+
+?>
+
+
+
+
+	<div class="carousel">
+		
+
+	</div>
+
+<?php
+
+}
+
+
+
+
+
+
+function get_content_user(){
+	echo "<h1>WELCOME TO MCDO ".$_SESSION['logged_in_user']."</h1>";
+
+?>
+	<div class="carousel">
+		
+
+	</div>
+
+
+<?php
+}
+
+
+
+
+
 
 require_once "partials/template.php";
 

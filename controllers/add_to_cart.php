@@ -1,13 +1,15 @@
 <?php
 	session_start();
-	$id = $_GET['id'];
+	$id = $_POST['id'];
 	if(isset($_SESSION['cart'][$id])) {
 		$_SESSION['cart'][$id] += $_POST['quantity'];
+		echo "Successfully added";
 	} else {
 		$_SESSION['cart'][$id] = $_POST['quantity'];
+		echo "Successfully added";
 	}
-
-	header('location: '.$_SERVER['HTTP_REFERER']);
+	
+	
 
 
  ?>

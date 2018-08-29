@@ -1,11 +1,11 @@
 <?php
 function get_title(){
-	echo 'Register';
+	echo 'Jcube Basketball | Register';
 }
 function get_content() { 
 
 	?>
-		<h1>Welcome Guest!!!</h1>
+		<h1>Register Page</h1>
 		<h6 id="registermessage"></h6>
 		
 		<form action="controllers/register_endpoint.php" method="POST" id="reg">
@@ -129,11 +129,11 @@ function get_content() {
 				}).done(data =>{
 					if (data==1){
 						email.next().css('color', 'red');
-						email.next().html('Username Already Exist');
+						email.next().html('Email already used');
 						errFlag = true;
 					} else {
 						email.next().css('color', 'green');
-						email.next().html('Username still available');
+						email.next().html('Email still available');
 					}
 				});
 			}

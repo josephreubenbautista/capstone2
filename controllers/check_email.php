@@ -5,7 +5,7 @@
 	$email = $_POST['email'];
 
 	// $username = 'h';
-	$sql = "SELECT * FROM users_details WHERE email = '$email'";
+	$sql = "SELECT * FROM users WHERE email = '$email'";
 
 	$result = mysqli_query($conn, $sql);
 	// var_dump($result);
