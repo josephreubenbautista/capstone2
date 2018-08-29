@@ -16,7 +16,7 @@
 		require "partials/nav.php";
 ?>
 	<div id="cont"></div>
-	<div class="container" id="container1">
+	<div class="container-fluid" id="container1">
 
 <?php 
 	if (isset($_SESSION['logged_in_user'])){

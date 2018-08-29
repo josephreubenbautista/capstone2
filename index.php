@@ -24,6 +24,8 @@ function get_content(){
 		
 
 	</div>
+
+
 <?php 
 
 } 
