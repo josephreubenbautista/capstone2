@@ -171,59 +171,12 @@
 		<hr class="my-3">
 		<div class="row">
 
-			<div class="card col-lg-3 fixed-top" id="product-form">
-				<form enctype="multipart/form-data" action="controllers/add_item.php" method="POST">
-					<div class="form-group">
-						<input type="text" class="form-control" name="productname" placeholder="Product Name">
-					</div>
-					<div class="form-group">
-						<select name="productcategories" class="form-control">
-							<option>(select category)</option>
-							<?php 
-								
-								$sql = "SELECT * FROM categories";
-								$result=mysqli_query($conn, $sql);
-								foreach($result as $row){
-									extract($row);
-							?>
-									<option value="<?php echo $id; ?>"><?php echo $name; ?></option>
-							<?php
-								}
-							 ?>
-						</select>
-					</div>
-					<div class="form-group">
-						<input type="text" name="productprice" class="form-control" placeholder="0.00">
-					</div>
-					<div class="form-group">
-						<textarea name="productdescription" class="form-control" placeholder="Product Description..."></textarea>
-					</div>
-					<div class="form-group">
-						<input type="file" name="productimage" class="form-control">
-					</div>
-					<div class="form-group">
-<?php
-					if(isset($_SESSION['error_message'])){
-						echo "<span class='error_message'>".$_SESSION['error_message']."</span>";
-						unset($_SESSION['error_message']);
-					}
-					if(isset($_SESSION['success_message'])){
-						echo "<span class='success_message'>".$_SESSION['success_message']."</span>";
-						unset($_SESSION['success_message']);
-					}
-?>
-						<button class="btn btn-primary float-right">Save</button>
-					</div>
-	
-				</form>
-			</div> <!-- end div for adding product -->
-
-			<div class="col-lg-3" id="product-space"></div>
-
-			<div class="col-lg-8 table-responsive guide card" id="product-list">
-				
-
 			
+
+			<!-- <div class="col-lg-3" id="product-space"></div> -->
+
+		<div class="col-lg-12 table-responsive guide card" id="product-list">
+			<nav class="nav">		
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
 						<a href="#" class="nav-link disabled">Filter:</a>
@@ -301,19 +254,21 @@
 						">High to Low</a>
 					</li>
 				</ul>
+				<button type="button" class="btn btn-success ml-auto" data-toggle="modal" data-target="#product-form">Add Item</button>
+			</nav>
 			
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Product Name</th>
-							<th>Price</th>
-							<th>Category</th>
-							<th>Description</th>
-							<th>Image</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Price</th>
+						<th>Category</th>
+						<th>Description</th>
+						<th>Image</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
 <?php
 						$filter = '';
 						$sort = '';
@@ -351,11 +306,9 @@
 								 </td>
 								<td><?php echo $description;?></td>
 								<td><img src="<?= $image_path ?>" class="img-fluid product-image"></td>
-								<td>
-									<p><button type="button" class="btn btn-primary edit-btn">Edit</button></p>
-									<p>
+								<td class="btn-group">
+									<button type="button" class="btn btn-primary edit-btn" data-index="<?= $id ?>" data-toggle="modal" data-target="#edit-item">Edit</button>
 									<button type="button" class="btn btn-danger delete-btn" data-index="<?= $id ?>" data-toggle="modal" data-target="#delete-item">Delete</button>
-									</p>
 								</td>
 							</tr>
 <?php 
@@ -381,14 +334,21 @@
 					<div class="modal-body">
 							
 						<p id="modal-msg">
-							Are you sure you want to delete <span id="item"></span>?
+							Are you sure you want to delete <span id="item-name"></span>?
+						</p>
+						<p>
+							<img id="modal-image">
+							<strong>Category: </strong><span id="item-category"></span>
 						</p>
 							
 					</div> <!-- end modal body -->
 
 					<div class="modal-footer">
-						<button class="btn btn-danger">Delete</button>
-						<button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+						<form enctype="multipart/form-data" action="controllers/delete_item.php" method="POST">
+							<input type="hidden" name="id" id="hidden-item-id">
+							<button class="btn btn-danger">Delete</button>
+							<button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+						</form>
 					</div>
 					
 				</div>
@@ -396,38 +356,166 @@
 		</div> <!-- end modal div for delete -->
 
 
+
+
+		<div class="modal" id="product-form">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title">Product Add</h4>
+						<button class="close" type="button" data-dismiss="modal">X</button>
+					</div>
+					<div class="modal-body">
+							
+						<form enctype="multipart/form-data" action="controllers/add_item.php" method="POST">
+							<div class="form-group">
+								<input type="text" class="form-control" name="productname" placeholder="Product Name">
+							</div>
+							<div class="form-group">
+								<select name="productcategories" class="form-control">
+									<option>(select category)</option>
+									<?php 
+										
+										$sql = "SELECT * FROM categories";
+										$result=mysqli_query($conn, $sql);
+										foreach($result as $row){
+											extract($row);
+									?>
+											<option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+									<?php
+										}
+									 ?>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="number" name="productprice" class="form-control" placeholder="0.00">
+							</div>
+							<div class="form-group">
+								<textarea name="productdescription" class="form-control" placeholder="Product Description..."></textarea>
+							</div>
+							<div class="form-group">
+								<input type="file" name="productimage" class="form-control">
+							</div>
+							
+							
+					</div> <!-- end modal body -->
+
+					<div class="modal-footer">
+						<div class="form-group">
+							<button class="btn btn-primary">Save</button>
+							<button class="btn btn-danger" data-dismiss="modal" type="button">Cancel</button>
+						</div>
+			
+						</form>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div> <!-- end modal div for Add item -->
+
+
+
+
+		<div class="modal" id="edit-item">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title">Edit Item</h4>
+						<button class="close" type="button" data-dismiss="modal">X</button>
+					</div>
+					<div class="modal-body">
+							
+						<form enctype="multipart/form-data" action="controllers/update_item.php" method="POST">
+							<input type="hidden" name="id" id="hidden-item-id-edit">
+							<div class="form-group">
+								<input type="text" class="form-control" name="productname" placeholder="Product Name" id="edit-name">
+							</div>
+							<div class="form-group">
+								<select name="productcategories" class="form-control" id="edit-category">
+
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="number" name="productprice" class="form-control" placeholder="0.00" id="edit-price">
+							</div>
+							<div class="form-group">
+								<textarea name="productdescription" class="form-control" placeholder="Product Description..." id="edit-description"></textarea>
+							</div>
+							<div class="form-group">
+								<img id="modal-image-edit">
+								<input type="file" name="productimage" class="form-control">
+							</div>
+							
+							
+					</div> <!-- end modal body -->
+
+					<div class="modal-footer">
+						<div class="form-group">
+							<button class="btn btn-primary">Save</button>
+							<button class="btn btn-danger" data-dismiss="modal" type="button">Cancel</button>
+						</div>
+			
+						</form>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div> <!-- end modal div for Edit item -->
+
+		
+
+				
+			
+
+
 		<script type="text/javascript">
 			
 			$('.delete-btn').click((e)=>{
 				let itemToDelete = e.target.getAttribute('data-index');
-				console.log(itemToDelete);
-
-				//ajax request
-				// $.post('controllers/delete.php',
-				// 	{id: taskToDelete},
-				// 	function (data){
-				// 		let tasks = JSON.parse(data);
-				// 		let htmlString = '';
-				// 		tasks.forEach(function (task){
-
-				// 			htmlString += `<li><span><i id="delete${task['id']}" data-index="${task['id']}" class="far fa-trash-alt"></i></span>${task['name']}</li>`;
-				// 		});
-
-				// 		let pending = document.querySelector('#completedTask');
-				// 		pending.innerHTML = htmlString;
-				// 	});
+				// console.log(itemToDelete);
 
 				$.ajax({
-					url : 'controllers/retrieve_item.php',
+					url : 'controllers/delete_show_item.php',
 					method : 'post',
 					data : {id : itemToDelete},
 				}).done(data =>{
 					let product = JSON.parse(data);
-					console.log(product);
-					// product.forEach((items)=>{
-					// 	console.log(${items['id']});
+					// console.log(product);
+					product.forEach((item)=>{
+						$('#item-name').html(item['name']);
+						$('#item-category').html(item['category']);
+						$('#modal-image').attr("src", item['image']);
+						$('#hidden-item-id').val(itemToDelete);
 						
-					// });
+					});
+
+				});
+
+			});
+
+
+			$('.edit-btn').click((e)=>{
+				let itemToEdit = e.target.getAttribute('data-index');
+				// console.log(itemToDelete);
+
+				$.ajax({
+					url : 'controllers/delete_show_item.php',
+					method : 'post',
+					data : {id : itemToEdit},
+				}).done(data =>{
+					let product = JSON.parse(data);
+					// console.log(product);
+					product.forEach((item)=>{
+						$('#item-name').html(item['name']);
+						$('#item-category').html(item['category']);
+						$('#modal-image').attr("src", item['image']);
+						$('#hidden-item-id-edit').val(itemToEdit);
+						
+					});
 
 				});
 
