@@ -2,13 +2,8 @@
 <html>
 <head>
 	<title><?php get_title();?></title>
-	<?php require "partials/header.php"; ?>
+	<?php require_once "partials/header.php"; ?>
 
-	<style type="text/css">
-		.error_message{
-			color: red;
-		}
-	</style>
 </head>
 <body>
 
@@ -16,7 +11,7 @@
 		require "partials/nav.php";
 ?>
 	<div id="cont"></div>
-	<div class="container-fluid" id="container1">
+	<div class="container" id="container1">
 
 <?php 
 	if (isset($_SESSION['logged_in_user'])){

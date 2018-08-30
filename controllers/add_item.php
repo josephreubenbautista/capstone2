@@ -1,6 +1,6 @@
 <?php
 
-
+	session_start();
 	require "../connection.php";
 
 	$itemname = $_POST['productname'];
@@ -16,10 +16,22 @@
 	move_uploaded_file($_FILES['productimage']['tmp_name'], '../'.$itemimage);
 
 	$sql = "INSERT INTO products (name,description,price,category_id,image_path) VALUES ('$itemname', '$itemdesc', $itemprice, $itemcategory, '$itemimage')";
-	mysqli_query($conn, $sql) or die(mysqli_error($conn));
+	 $result=mysqli_query($conn, $sql);
+
+	 if($result==1){
+	 	$_SESSION['success_message'] = "Product Added";
+	 }else{
+	 	$_SESSION['error_message'] = "Multiple Products";
+	 }
+
+
+
+
+	
 
 
 
 	header('location: '.$_SERVER['HTTP_REFERER']);
 
 ?>
+
