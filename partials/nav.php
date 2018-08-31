@@ -34,7 +34,17 @@
 
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">MyCart</a>
+					<a class="nav-link nav-text" href="cart.php">MyCart<span class="badge badge-danger" id="badge-cart">
+						<?php 
+							if(isset($_SESSION['item-quantity'])){
+								echo $_SESSION['item-quantity'];
+							}else{
+								echo "0";
+							}
+
+						 ?>
+
+					</span></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="#"><?php echo $_SESSION['logged_in_firstname']; ?></a>
@@ -97,7 +107,7 @@
 		</ul>
 
 		<ul class="navbar-nav ml-auto">
-			<li class="nav-item" data-toggle="modal" data-target="#login">
+			<li class="nav-item" data-toggle="modal" data-target="#login-modal">
 				<a class="nav-link nav-text" href="#">Login</a>
 			</li>
 			<li class="nav-item">
@@ -116,7 +126,7 @@
 
 
 	<!-- Login Modal -->
-	<div class="modal" id="login">
+	<div class="modal" id="login-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 

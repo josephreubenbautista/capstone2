@@ -120,29 +120,28 @@
 ?>
 	
 			<div class="col-lg-4 items-div">
-			<div class="card items-card">
-				<img class="card-img-top img-fluid img-items" src="<?php echo $image_path; ?>" alt="<?= $name ?>">
-				<div class="card-body">
-					<h4 class="card-title"><?php echo $name; ?></h4>
-					<h6 ><?php echo $price; ?></h6>
-					<p class="card-text">
-				<?php 
-						foreach ($result1 as $row1) {
-						 	echo $row1['name'];
-						 } 
-				?>
-						
-					</p>
-					<p class="card-text"><?php echo $description; ?></p>
-					<form method="POST" action="controllers/add_to_cart.php?id=<?php echo $productid; ?>">
-						<div class="input-group">
-							<input type="number" min="1" class="form-control" name="quantity" id="itemquantity<?php echo $id; ?>">
-							<button class="btn btn-success" onclick="addToCart(<?php echo $id; ?>)" type="button">Add To Cart</button>
-						</div>
-					</form>
-					<span id="successMessage<?php echo $id;  ?>"></span>
+				<div class="card items-card">
+					<img class="card-img-top img-fluid img-items" src="<?php echo $image_path; ?>" alt="<?= $name ?>">
+					<div class="card-body">
+						<h4 class="card-title"><?php echo $name; ?></h4>
+						<h6 ><?php echo $price; ?></h6>
+						<p class="card-text">
+					<?php 
+							foreach ($result1 as $row1) {
+							 	echo $row1['name'];
+							 } 
+					?>
+							
+						</p>
+						<p class="card-text"><?php echo $description; ?></p>
+						<form method="POST" action="controllers/add_to_cart.php?id=<?php echo $productid; ?>">
+							<div class="input-group">
+								<input type="number" min="1" class="form-control item-qty" name="quantity" id="itemquantity<?php echo $id; ?>">
+								<button class="btn btn-success add-to-cart-btn" type="button" data-index="<?php echo $id; ?>" data-toggle="modal" data-target="#msgBoxs">Add To Cart</button>
+							</div>
+						</form>
+					</div>
 				</div>
-			</div>
 			</div>
 
 <?php
@@ -151,10 +150,65 @@
 ?>
 		</div>
 		
-		
+		<div class="modal" id="msgBox">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title">Success</h4>
+						<button class="close okbtn" type="button" data-dismiss="modal">X</button>
+					</div>
+					<form action="controllers/authenticate.php" method="POST">
+						<div class="modal-body">
+							<p id="msg"></p>
+						</div>
+						 <!-- end modal body -->
+
+						<div class="modal-footer">
+							<button class="btn btn-success okbtn" data-dismiss="modal" type="button" id="">Ok</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
 
 
+		<script type="text/javascript">
+			$('.add-to-cart-btn').click((e)=>{
+				let id = e.target.getAttribute('data-index');
+
+				let quantity = $('#itemquantity'+id).val();
+				
+				$.ajax({
+					url : "controllers/add_to_cart.php",
+					data : {id : id, quantity : quantity},
+					method: "POST",
+				}).done(data =>{
+					data = JSON.parse(data);
+					let product = data.product;
+					
+					$('#badge-cart').html(data.quantity);
+
+					product.forEach((item)=>{
+						$('#msg').html(quantity+" item/s of "+item['name']+" successfully added to cart.")
+						$('#msgBox').show();
+					});
+
+					
+
+				});
+
+			});
+
+			$('.okbtn').click(()=>{
+				$('.item-qty').val('');
+				$('#msgBox').hide();
+			});
+
+
+
+		</script>
 <?php
 	} 
 	// end content user
@@ -173,7 +227,38 @@
 
 			
 
-			<!-- <div class="col-lg-3" id="product-space"></div> -->
+		<div class="col-lg-12">
+			<?php 
+
+				if(isset($_SESSION['error_message'])){
+			?>
+					<div class="alert alert-danger" role="alert">
+						<h4 class="alert-heading">ERROR</h4>
+						<p><?php echo $_SESSION['error_message'] ?></p>
+
+					</div>
+
+			<?php
+
+
+					unset($_SESSION['error_message']);
+				}
+				if(isset($_SESSION['success_message'])){
+			?>
+					<div class="alert alert-success" role="alert">
+						<h4 class="alert-heading">SUCCESS</h4>
+						<p><?php echo $_SESSION['success_message'] ?></p>
+
+					</div>
+
+			<?php
+
+					unset($_SESSION['success_message']);
+				}
+
+
+			 ?>
+		</div>
 
 		<div class="col-lg-12 table-responsive guide card" id="product-list">
 			<nav class="nav">		
@@ -435,7 +520,17 @@
 							</div>
 							<div class="form-group">
 								<select name="productcategories" class="form-control" id="edit-category">
-
+									<?php 
+										
+										$sql = "SELECT * FROM categories";
+										$result=mysqli_query($conn, $sql);
+										foreach($result as $row){
+											extract($row);
+									?>
+											<option value="<?php echo $id; ?>" class="cat-item" id="<?php echo $id; ?>"><?php echo $name; ?></option>
+									<?php
+										}
+									 ?>
 								</select>
 							</div>
 							<div class="form-group">
@@ -445,8 +540,10 @@
 								<textarea name="productdescription" class="form-control" placeholder="Product Description..." id="edit-description"></textarea>
 							</div>
 							<div class="form-group">
+								<div class="form-control">
 								<img id="modal-image-edit">
-								<input type="file" name="productimage" class="form-control">
+								<input type="file" name="productimage">
+								</div>
 							</div>
 							
 							
@@ -500,20 +597,29 @@
 
 			$('.edit-btn').click((e)=>{
 				let itemToEdit = e.target.getAttribute('data-index');
-				// console.log(itemToDelete);
+				
 
 				$.ajax({
-					url : 'controllers/delete_show_item.php',
+					url : 'controllers/edit_show_item.php',
 					method : 'post',
 					data : {id : itemToEdit},
 				}).done(data =>{
 					let product = JSON.parse(data);
-					// console.log(product);
 					product.forEach((item)=>{
-						$('#item-name').html(item['name']);
-						$('#item-category').html(item['category']);
-						$('#modal-image').attr("src", item['image']);
 						$('#hidden-item-id-edit').val(itemToEdit);
+
+						$('#edit-name').val(item['name']);
+
+						$('#'+item['category_id']).attr("selected", "true");
+
+						$('#edit-price').val(item['price']);
+
+						
+
+						$('#edit-description').html(item['description']);
+						
+						$('#modal-image-edit').attr("src", item['image_path']);
+						
 						
 					});
 

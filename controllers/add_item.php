@@ -19,9 +19,9 @@
 	 $result=mysqli_query($conn, $sql);
 
 	 if($result==1){
-	 	$_SESSION['success_message'] = "Product Added";
+	 	$_SESSION['success_message'] = "$itemname Has been added.";
 	 }else{
-	 	$_SESSION['error_message'] = "Multiple Products";
+	 	$_SESSION['error_message'] = "The product you are trying to add is already in the database. The same name is not allowed.";
 	 }
 
 
