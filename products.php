@@ -136,7 +136,19 @@
 						<p class="card-text"><?php echo $description; ?></p>
 						<form method="POST" action="controllers/add_to_cart.php?id=<?php echo $productid; ?>">
 							<div class="input-group">
-								<input type="number" min="1" class="form-control item-qty" name="quantity" id="itemquantity<?php echo $id; ?>">
+								<select class="form-control item-qty" name="quantity" id="itemquantity<?php echo $id; ?>">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									
+								</select>
 								<button class="btn btn-success add-to-cart-btn" type="button" data-index="<?php echo $id; ?>" data-toggle="modal" data-target="#msgBoxs">Add To Cart</button>
 							</div>
 						</form>
@@ -158,7 +170,7 @@
 						<h4 class="modal-title">Success</h4>
 						<button class="close okbtn" type="button" data-dismiss="modal">X</button>
 					</div>
-					<form action="controllers/authenticate.php" method="POST">
+					
 						<div class="modal-body">
 							<p id="msg"></p>
 						</div>
@@ -167,48 +179,13 @@
 						<div class="modal-footer">
 							<button class="btn btn-success okbtn" data-dismiss="modal" type="button" id="">Ok</button>
 						</div>
-					</form>
+					
 				</div>
 			</div>
 		</div>
 
 
-
-		<script type="text/javascript">
-			$('.add-to-cart-btn').click((e)=>{
-				let id = e.target.getAttribute('data-index');
-
-				let quantity = $('#itemquantity'+id).val();
-				
-				$.ajax({
-					url : "controllers/add_to_cart.php",
-					data : {id : id, quantity : quantity},
-					method: "POST",
-				}).done(data =>{
-					data = JSON.parse(data);
-					let product = data.product;
-					
-					$('#badge-cart').html(data.quantity);
-
-					product.forEach((item)=>{
-						$('#msg').html(quantity+" item/s of "+item['name']+" successfully added to cart.")
-						$('#msgBox').show();
-					});
-
-					
-
-				});
-
-			});
-
-			$('.okbtn').click(()=>{
-				$('.item-qty').val('');
-				$('#msgBox').hide();
-			});
-
-
-
-		</script>
+		
 <?php
 	} 
 	// end content user
@@ -567,69 +544,9 @@
 
 				
 			
+		
 
-
-		<script type="text/javascript">
-			
-			$('.delete-btn').click((e)=>{
-				let itemToDelete = e.target.getAttribute('data-index');
-				// console.log(itemToDelete);
-
-				$.ajax({
-					url : 'controllers/delete_show_item.php',
-					method : 'post',
-					data : {id : itemToDelete},
-				}).done(data =>{
-					let product = JSON.parse(data);
-					// console.log(product);
-					product.forEach((item)=>{
-						$('#item-name').html(item['name']);
-						$('#item-category').html(item['category']);
-						$('#modal-image').attr("src", item['image']);
-						$('#hidden-item-id').val(itemToDelete);
-						
-					});
-
-				});
-
-			});
-
-
-			$('.edit-btn').click((e)=>{
-				let itemToEdit = e.target.getAttribute('data-index');
-				
-
-				$.ajax({
-					url : 'controllers/edit_show_item.php',
-					method : 'post',
-					data : {id : itemToEdit},
-				}).done(data =>{
-					let product = JSON.parse(data);
-					product.forEach((item)=>{
-						$('#hidden-item-id-edit').val(itemToEdit);
-
-						$('#edit-name').val(item['name']);
-
-						$('#'+item['category_id']).attr("selected", "true");
-
-						$('#edit-price').val(item['price']);
-
-						
-
-						$('#edit-description').html(item['description']);
-						
-						$('#modal-image-edit').attr("src", item['image_path']);
-						
-						
-					});
-
-				});
-
-			});
-
-
-
-		</script>
+		
 <?php
 
 	}

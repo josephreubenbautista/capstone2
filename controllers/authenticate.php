@@ -15,6 +15,7 @@
 		$_SESSION['logged_in_user'] = $username;
 		$_SESSION['logged_in_role'] = $role_id;
 		$_SESSION['logged_in_firstname'] = $first_name;
+		$_SESSION['logged_in_id'] = $id;
 	}else{
 		$_SESSION['error_message'] = "Login Failed";
 	}

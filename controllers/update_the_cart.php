@@ -23,8 +23,25 @@
 
 	// echo json_encode($product);
 
-	echo $quantity;
+
+	$sql = "SELECT * FROM products WHERE id = $id";
+
+	$result = mysqli_query($conn, $sql);
+	// var_dump($result);
+
+	$product = [];
+
+	while ($row = mysqli_fetch_assoc($result)){
+		array_push($product,$row);
+	}
+
+	// var_dump($product);
+	// echo $id;	
+
+	// echo json_encode($product);
+
+	echo json_encode(['quantity'=>$quantity,'product'=>$product]);
 
  ?>
-
+  
 

@@ -1,10 +1,34 @@
 <?php 
-	if (isset($_POST['deletekey'])){
-		$key = $_POST['deletekey'];
-		// $items = $_SESSION['cart'];
-		// array_splice($items, $key, 1);
-		unset($_SESSION['cart'][$key]);
+
+	session_start();
+	require "../connection.php";
+
+
+
+	$id = $_POST['id'];
+	unset($_SESSION['cart'][$id]);
+
+	$quantity = 0;
+	foreach ($_SESSION['cart'] as $qty) {
+		$quantity+=$qty;
 	}
 
+	// echo $quantity."<br>";
+
+	$_SESSION['item-quantity'] = $quantity;
+
+
+	
+
+	// var_dump($product);
+	// echo $id;	
+
+	// echo json_encode($product);
+
+	echo $quantity;
+
+
+
+	
 
  ?>

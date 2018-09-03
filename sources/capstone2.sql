@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2018 at 08:06 AM
+-- Generation Time: Sep 02, 2018 at 04:53 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -33,6 +33,16 @@ CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Shirt'),
+(2, 'Accessories'),
+(3, 'Shoes'),
+(4, 'Jersey');
+
 -- --------------------------------------------------------
 
 --
@@ -55,11 +65,18 @@ CREATE TABLE `orders` (
   `transaction_code` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `contact_number` varchar(255) NOT NULL,
-  `date_created` datetime NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) DEFAULT NULL,
-  `status_id` int(11) NOT NULL,
-  `payement_method_id` int(11) NOT NULL
+  `status_id` int(11) NOT NULL DEFAULT '1',
+  `payment_method_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `transaction_code`, `address`, `contact_number`, `date_created`, `user_id`, `status_id`, `payment_method_id`) VALUES
+(12, 'TR5b8bef1a685a5', 'ssdfghg', 'NULL', '2018-09-02 22:09:42', 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -84,6 +101,14 @@ CREATE TABLE `payment_methods` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id`, `name`) VALUES
+(1, 'Cash On Delivery'),
+(2, 'Paypal');
 
 -- --------------------------------------------------------
 
@@ -145,6 +170,14 @@ CREATE TABLE `statuses` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `statuses`
+--
+
+INSERT INTO `statuses` (`id`, `name`) VALUES
+(1, 'Processing'),
+(2, 'Delivered');
+
 -- --------------------------------------------------------
 
 --
@@ -175,6 +208,14 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role_id`, `first_name`, `last_name`, `email`, `contact_number`, `address`) VALUES
+(1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 2, 'Admin', 'Bautista', 'jayrbautista26@gmail.com', '09153582091', '23 happyst. bgy happy, happy city'),
+(10, 'user', '12dea96fec20593566ab75692c9949596833adc9', 1, 'User', 'Bautista', 'jayrbautista261@gmail.com', '', '');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -198,7 +239,7 @@ ALTER TABLE `orders`
   ADD UNIQUE KEY `transaction_code` (`transaction_code`),
   ADD KEY `orders_fk0` (`user_id`),
   ADD KEY `orders_fk1` (`status_id`),
-  ADD KEY `orders_fk2` (`payement_method_id`);
+  ADD KEY `orders_fk2` (`payment_method_id`);
 
 --
 -- Indexes for table `order_details`
@@ -267,7 +308,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `leagues`
@@ -279,19 +320,19 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `players`
@@ -303,7 +344,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -315,7 +356,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `statuses`
 --
 ALTER TABLE `statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `team`
@@ -327,7 +368,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -339,7 +380,7 @@ ALTER TABLE `users`
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_fk1` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `orders_fk2` FOREIGN KEY (`payement_method_id`) REFERENCES `payment_methods` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `orders_fk2` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_details`

@@ -88,3 +88,28 @@
 .item-details{
 	padding-top: 20px;
 }
+
+
+
+.transact-image{
+	height: 100px;
+	width: 100px;
+}
+
+
+
+
+
+
+
+.carousel-image{
+	width: 1100px;
+	height: 500px;
+}
+
+.caption-box{
+	
+	padding: 20px;
+	background-color: rgba(60,60,60,0.7);
+	border-radius: 10px;
+}

@@ -27,7 +27,7 @@
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">Transaction</a>
+					<a class="nav-link nav-text" href="transaction.php">Transaction</a>
 				</li>
 
 			</ul>
@@ -72,7 +72,7 @@
 					<a class="nav-link nav-text" href="products.php">Products</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">Transactions</a>
+					<a class="nav-link nav-text" href="transaction.php">Transactions</a>
 				</li>
 				
 
@@ -98,8 +98,8 @@
 			<li class="nav-item">
 				<a class="nav-link nav-text" href="index.php">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-text" href="products.php">Shop</a>
+			<li class="nav-item" data-toggle="modal" data-target="#login-modal">
+				<a class="nav-link nav-text" href="#">Shop</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link nav-text" href="#">League</a>
@@ -138,12 +138,10 @@
 					<div class="modal-body">
 						
 							<div class="input-group">
-								<label for="username">Username: </label>
-								<input class="form-control" id="username" name="username" required>
+								<input class="form-control" id="username" name="username" placeholder="username" required>
 							</div>
 							<div class="input-group">
-								<label for="password">Password: </label>
-								<input class="form-control" type="password" id="password" name="password" required>
+								<input class="form-control" type="password" id="password" name="password" placeholder="password" required>
 							</div>
 						
 					</div> <!-- end modal body -->
@@ -156,5 +154,3 @@
 			</div>
 		</div>
 	</div>
-
-	
