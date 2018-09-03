@@ -8,7 +8,7 @@
 <body>
 
 <?php 
-		require "partials/nav.php";
+		require_once "partials/nav.php";
 ?>
 	<div id="cont"></div>
 	<div class="container" id="container1">
@@ -33,7 +33,7 @@
 
 	</div>
 <?php
-	require "partials/footer.php";
+	require_once "partials/footer.php";
 ?>
 
 

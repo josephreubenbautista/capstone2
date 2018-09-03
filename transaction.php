@@ -141,6 +141,9 @@
 
 	function get_content_admin() {
 		require "connection.php";
+		$first_name = '';
+		$last_name = '';
+		
 		
 ?>
 		<h2>Transactions</h2>
@@ -149,14 +152,14 @@
 			<nav class="nav col-lg-12" id="sort-filter">
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Filter:</a>
+						<a href="#" class="nav-link disabled">Status:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=0" class="nav-link 
+						<a href="controllers/filter_status.php?status=0" class="nav-link 
 						<?php 
-							if (isset($_SESSION['filtering'])){
-								$categoryid = $_SESSION['filtering'];
-								if($categoryid==0){
+							if (isset($_SESSION['filtering-status'])){
+								$statusid = $_SESSION['filtering-status'];
+								if($statusid==0){
 									echo "active";
 								}
 							}else{
@@ -168,19 +171,69 @@
 						">All</a>
 					</li>
 <?php
-					$filter="SELECT * FROM categories";
-					$categories = mysqli_query($conn, $filter);
-					foreach ($categories as $category) {
-						extract($category);
+					$filter="SELECT * FROM statuses";
+					$statuses = mysqli_query($conn, $filter);
+					foreach ($statuses as $status) {
+						extract($status);
 					
 
 ?>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=<?= $id ?>" class="nav-link 
+						<a href="controllers/filter_status.php?status=<?= $id ?>" class="nav-link 
 							<?php 
-							if (isset($_SESSION['filtering'])){
-								$categoryid = $_SESSION['filtering'];
-								if($categoryid==$id){
+							if (isset($_SESSION['filtering-status'])){
+								$statusid = $_SESSION['filtering-status'];
+								if($statusid==$id){
+									echo "active";
+								}
+							}
+
+						 	?>
+						"><?php echo $name; ?></a>
+					</li>
+<?php 
+
+					}
+ ?>
+
+				</ul> <!-- END FILTER STATUS -->
+
+
+
+				<ul class="nav nav-tabs ml-auto">
+					<li class="nav-item">
+						<a href="#" class="nav-link disabled">Payment Method:</a>
+					</li>
+					<li class="nav-item">
+						<a href="controllers/filter_payment.php?pay=0" class="nav-link 
+						<?php 
+							if (isset($_SESSION['filtering-payment'])){
+								$methodid = $_SESSION['filtering-payment'];
+								if($methodid==0){
+									echo "active";
+								}
+							}else{
+								echo "active";
+							}
+
+						 ?>
+
+						">All</a>
+					</li>
+<?php
+					$filter="SELECT * FROM payment_methods";
+					$methods = mysqli_query($conn, $filter);
+					foreach ($methods as $method) {
+						extract($method);
+					
+
+?>
+					<li class="nav-item">
+						<a href="controllers/filter_payment.php?pay=<?= $id ?>" class="nav-link 
+							<?php 
+							if (isset($_SESSION['filtering-payment'])){
+								$methodid = $_SESSION['filtering-payment'];
+								if($methodid==$id){
 									echo "active";
 								}
 							}
@@ -195,39 +248,45 @@
 
 				</ul>
 
-				<ul class="nav nav-tabs mr-auto">
-					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Sort:</a>
-					</li>
-					<li class="nav-item">
-						<a href="controllers/sort.php?sort=ASC" class="nav-link 
-						<?php 
-							if (isset($_SESSION['sorting'])){
-				              $sorted = $_SESSION['sorting'];
-				              if($sorted =='ASC'){
-				                echo "active";
-				              }
-				            }
-             			?>
-            			">Low to High</a>
-					</li>
-					<li class="nav-item">
-						<a href="controllers/sort.php?sort=DESC" class="nav-link
-						<?php 
-							if (isset($_SESSION['sorting'])){
-				              $sorted = $_SESSION['sorting'];
-				              if($sorted =='DESC'){
-				                echo "active";
-				              }
-				            }
-             			?>
-						">High to Low</a>
-					</li>
-				</ul>
+				
 
 
 			</nav>
+			
 
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<?php 
+
+					if(isset($_SESSION['error_message'])){
+				?>
+						<div class="alert alert-danger" role="alert">
+							<h4 class="alert-heading">ERROR</h4>
+							<p><?php echo $_SESSION['error_message'] ?></p>
+						</div>
+
+				<?php
+
+
+						unset($_SESSION['error_message']);
+					}
+					if(isset($_SESSION['success_message'])){
+				?>
+						<div class="alert alert-success" role="alert">
+							<h4 class="alert-heading">SUCCESS</h4>
+							<p><?php echo $_SESSION['success_message'] ?></p>
+
+						</div>
+
+				<?php
+
+						unset($_SESSION['success_message']);
+					}
+
+
+				 ?>
+			</div>
 		</div>
 		<table class="table">
 			<thead>
@@ -246,10 +305,35 @@
 					$code = '';
 					$orderid = 0;
 					$date='';
+					$filter = '';
+
+				
 					
-					$sql = "SELECT * FROM orders ORDER BY date_created";
-					$result = mysqli_query($conn, $sql);
-					foreach ($result as $row) {
+													
+					if (isset($_SESSION['filtering-status'])&&isset($_SESSION['filtering-payment'])){
+						$statusid = $_SESSION['filtering-status'];
+						$methodid = $_SESSION['filtering-payment'];
+						
+						$filter = " WHERE status_id = $statusid AND payment_method_id = $methodid";
+						
+					}else if(!isset($_SESSION['filtering-status'])&&isset($_SESSION['filtering-payment'])){
+						$methodid = $_SESSION['filtering-payment'];
+						
+						$filter = " WHERE payment_method_id = $methodid";
+
+					}else if(isset($_SESSION['filtering-status'])&&!isset($_SESSION['filtering-payment'])){
+						$statusid = $_SESSION['filtering-status'];
+						
+						$filter = " WHERE status_id = $statusid";
+					}else{
+						$filter = '';
+					}
+
+					
+					$sql = "SELECT * FROM orders ".$filter." ORDER BY date_created DESC";
+					$result1 = mysqli_query($conn, $sql);
+					foreach ($result1 as $row) {
+
 						$statusid = $row['status_id'];
 						$payid = $row['payment_method_id'];
 						$date = $row['date_created'];
@@ -270,14 +354,27 @@
 							 ?></td>
 							<td><?php echo $address; ?></td>
 							<td><?php echo $contact_number; ?></td>
-							<td><?php 
-								$statussql = "SELECT * FROM statuses WHERE id=$statusid";
-								$statusresult = mysqli_query($conn,$statussql);
-								foreach ($statusresult as $status) {
-									echo $status['name'];
-								}
+							<td id="statustd">
+								<form action="controllers/update_status.php" method="POST" id="update-status<?= $id ?>">
+									<input type="hidden" name="id" value="<?= $id ?>" id="order<?= $id  ?>">
+									<select name="statusid" class="form-control status" id="status<?= $id ?>" data-index="<?= $id ?>">
+										<?php 
+										$statussql = "SELECT * FROM statuses";
+										$statusresult = mysqli_query($conn,$statussql);
+										foreach ($statusresult as $status) {
+											extract($status);
+										?>
+											<option value="<?php echo $id; ?>" class="status" id="value<?php echo $id; ?>" <?php if($status_id==$id){echo "selected";} ?>><?php echo $name; ?></option>
+										<?php
+										}
 
-							 ?></td>
+									 ?>
+									</select> 
+									
+										
+									
+								</form>
+							</td>
 							<td><?php 
 								$paysql = "SELECT * FROM payment_methods WHERE id=$payid";
 								$payresult = mysqli_query($conn,$paysql);
@@ -322,6 +419,7 @@
 					</div> <!-- end modal body -->
 
 					<div class="modal-footer">
+						
 
 						<button class="btn btn-success" data-dismiss="modal" type="button">Ok</button>
 					</div>

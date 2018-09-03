@@ -6,7 +6,7 @@
 
 
 	<!--favicon-->
-	<!-- <link rel="shortcut icon" type="img/png/jpg" href="assets/images/logo.png"> -->
+	<link rel="shortcut icon" type="img/png/jpg" href="assets/images/carousel/logo.png">
 
 	<!-- bootstrap css -->
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">

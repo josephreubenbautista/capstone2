@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="reuben">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="reuben">
 	<a class="navbar-brand" href="index.php" id="joseph">
-		<!-- <img src="assets/images/logo.png" id="logo">  -->
-			JCube Basketball
+		<img src="assets/images/carousel/logo.png" id="logo"> 
+			
 	</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -47,7 +47,7 @@
 					</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#"><?php echo $_SESSION['logged_in_firstname']; ?></a>
+					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal"><?php echo $_SESSION['logged_in_firstname']; ?></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="logout.php">Logout</a>
@@ -80,7 +80,7 @@
 
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#"><?php echo $_SESSION['logged_in_firstname']; ?></a>
+					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal"><?php echo $_SESSION['logged_in_firstname']; ?></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="logout.php">Logout</a>
@@ -122,7 +122,7 @@
 	</div> <!-- end collapse menu -->
 </nav> <!-- end nav -->
 
-
+<div id="spaced">&nbsp;</div>
 
 
 	<!-- Login Modal -->
@@ -165,7 +165,7 @@
 					<h4 class="modal-title">Register</h4>
 					<button class="close" type="button" data-dismiss="modal">X</button>
 				</div>
-				<form action="controllers/register_endpoint.php.php" method="POST">
+				<form action="controllers/register_endpoint.php" method="POST">
 					<div class="modal-body">
 						<h6 id="registermessage"></h6>
 							<div class="input-group">
@@ -206,7 +206,3 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	

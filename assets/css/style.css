@@ -5,10 +5,21 @@
 	padding: 0;
 	box-sizing: border-box;
 	
-
-	
 }
 
+#spaced{
+	height: 100px;
+
+}
+
+#logo{
+	height: 50px;
+	width: 175px;
+}
+
+#statustd{
+	width: 175px;
+}
 
 #product-form{
 	padding: 10px;
@@ -48,6 +59,7 @@
 .items-card{
 	padding: 15px;
 	margin-left: 1px;
+	height: 100%;
 }
 .items-div{
 	margin-bottom: 10px;
