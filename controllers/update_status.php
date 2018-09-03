@@ -1,5 +1,4 @@
 <?php
-
 	session_start();
 	require "../connection.php";
 
@@ -13,9 +12,6 @@
 	$result=mysqli_query($conn, $sql);
 
 	
-	
-
-	
 	if($result==1){
 		$_SESSION['success_message'] = " Successfully updated";
 		
@@ -23,17 +19,6 @@
 		$_SESSION['error_message'] = "Update unsuccessful";
 	}
 
-
-
-
-	echo "$status <br> $id";
-
-
-	
-
-
-
 	header('location: '.$_SERVER['HTTP_REFERER']);
 
 ?>
-
