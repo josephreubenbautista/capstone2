@@ -156,6 +156,8 @@
 				</div>
 			</div>
 
+
+
 <?php
 		}
 
@@ -185,7 +187,7 @@
 		</div>
 
 
-		
+	<script src="assets/js/productsuser.js"></script>
 <?php
 	} 
 	// end content user
@@ -543,7 +545,7 @@
 		
 
 				
-			
+		<script src="assets/js/productsadmin.js"></script>	
 		
 
 		

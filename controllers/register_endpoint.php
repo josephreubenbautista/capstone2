@@ -15,9 +15,11 @@
 
 	$execute=mysqli_query($conn, $sql);
 
-	echo "Registration Successful";
-
-
+	if ($execute == 1) {
+		echo "Register Successful";
+	}else{
+		echo "Register Unsuccessful";
+	}
 
 
  ?>

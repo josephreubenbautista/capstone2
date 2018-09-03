@@ -1,7 +1,7 @@
 $('#alert-checkout').hide();
 
 $('#checkout-submit').click(()=>{
-	let address = $('#address').val();
+	let address = $('#addresscart').val();
 
 	if(address==0){
 		$('#alert-checkout').show();
@@ -41,7 +41,7 @@ $('#modal-cart-remove').click(()=>{
 		$('#badge-cart').html(data);
 		$('#total-quantity').html(data);
 	});
-
+ 
 });
 
 $('.cart-btn-remove').click((e)=>{

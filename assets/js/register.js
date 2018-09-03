@@ -1,7 +1,7 @@
 $('#registerBtn').click( () => {
-	const userName = $('#username');
-	const password = $('#password');
-	const confirmPassword = $('#confirmpassword');
+	const userName = $('#usernamereg');
+	const password = $('#passwordreg');
+	const confirmPassword = $('#confirmpasswordreg');
 
 	const firstName = $('#firstName');
 	const lastName = $('#lastName');
@@ -34,7 +34,7 @@ $('#registerBtn').click( () => {
 	}
 
 
-	if(userName.val().length==0){
+	if(uname.length==0){
 		userName.next().css('color', 'red');
 		userName.next().html('This field is required');
 		errFlag = true;
@@ -137,5 +137,32 @@ $('#registerBtn').click( () => {
 		});
 				
 	}
+
+});
+
+
+
+$('#loginBtn').click(()=>{
+	const username = $('#usernamelogin');
+	const password = $('#passwordlogin');
+	let errFlag = false;
+
+	if (username.val().length==0){
+		username.next().css('color', 'red');
+		username.next().html('This field is required');
+		errFlag = true;
+	}
+
+
+	if (password.val().length==0){
+		password.next().css('color', 'red');
+		password.next().html('This field is required');
+		errFlag = true;
+	}
+
+	if (errFlag==false) {
+		$('#loginformsubmit').submit();
+	}
+
 
 });

@@ -134,7 +134,7 @@
 							</div>
 
 							<div class="input-group">
-								<textarea class="form-control" id="address" name="address" placeholder="Delivery Address. Where do you want us to deliver your order?"></textarea><span></span>
+								<textarea class="form-control" id="addresscart" name="address" placeholder="Delivery Address. Where do you want us to deliver your order?"></textarea><span></span>
 							</div>
 
 							<div class="input-group">
@@ -265,7 +265,7 @@
 		</div> <!-- end modal div for delete -->
 
 
-
+<script src="assets/js/cart.js"></script>
 		
 		
 

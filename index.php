@@ -10,16 +10,40 @@ function get_title(){
 
 function get_content(){
 ?>
-		
-<?php 
-		if(isset($_SESSION['error_message'])){
-			echo "<span class='error_message'>".$_SESSION['error_message']."</span>";
-			unset($_SESSION['error_message']);
-		}
-?>
-<?php
-	
-?>
+	<div class="row">
+		<div class="col-lg-12">
+			<?php 
+
+				if(isset($_SESSION['error_message'])){
+			?>
+					<div class="alert alert-danger" role="alert">
+						<h4 class="alert-heading">ERROR</h4>
+						<p><?php echo $_SESSION['error_message'] ?></p>
+					</div>
+
+			<?php
+
+
+					unset($_SESSION['error_message']);
+				}
+				if(isset($_SESSION['success_message'])){
+			?>
+					<div class="alert alert-success" role="alert">
+						<h4 class="alert-heading">SUCCESS</h4>
+						<p><?php echo $_SESSION['success_message'] ?></p>
+
+					</div>
+
+			<?php
+
+					unset($_SESSION['success_message']);
+				}
+
+
+			 ?>
+		</div>
+	</div>
+
 	<div class="carousel">
 		<div id="demo" class="carousel slide" data-ride="carousel">
 		  <ul class="carousel-indicators">
@@ -91,7 +115,7 @@ function get_content(){
 		</div>
 
 	</div>
-
+	<script src="assets/js/register.js"></script>
 
 <?php 
 
