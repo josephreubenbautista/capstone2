@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="reuben">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="reuben">
 	<a class="navbar-brand" href="index.php" id="joseph">
 		<img src="assets/images/carousel/logo.png" id="logo"> 
 			
@@ -17,24 +17,21 @@
 ?>
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="index.php">Home</a>
+					<a class="nav-link nav-text" href="index.php" id="home">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="products.php">Shop</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">League</a>
+					<a class="nav-link nav-text" href="products.php" id="shop">Shop</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="transaction.php">Transaction</a>
+					<a class="nav-link nav-text" href="transaction.php" id="transaction">Transaction</a>
 				</li>
 
 			</ul>
 
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="cart.php">MyCart<span class="badge badge-danger" id="badge-cart">
+					<a class="nav-link nav-text" href="cart.php" id="cart">MyCart<span class="badge badge-danger" id="badge-cart">
 						<?php 
 							if(isset($_SESSION['item-quantity'])){
 								echo $_SESSION['item-quantity'];
@@ -47,10 +44,10 @@
 					</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal"><?php echo $_SESSION['logged_in_firstname']; ?></a>
+					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal" id="user"><?php echo $_SESSION['logged_in_firstname']; ?></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="logout.php">Logout</a>
+					<a class="nav-link nav-text" href="logout.php" id="logout">Logout</a>
 				</li>
 				
 			</ul>
@@ -60,19 +57,14 @@
 ?>
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="index.php">Home</a>
+					<a class="nav-link nav-text" href="index.php" id="home">Home</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link nav-text" href="products.php" id="products">Products</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">Users</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="#">League</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="products.php">Products</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="transaction.php">Transactions</a>
+					<a class="nav-link nav-text" href="transaction.php" id="transaction">Transactions</a>
 				</li>
 				
 
@@ -80,10 +72,10 @@
 
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal"><?php echo $_SESSION['logged_in_firstname']; ?></a>
+					<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#edituser-modal" id="user"><?php echo $_SESSION['logged_in_firstname']; ?></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="logout.php">Logout</a>
+					<a class="nav-link nav-text" href="logout.php" id="logout">Logout</a>
 				</li>
 				
 			</ul>
@@ -96,22 +88,20 @@
 ?>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link nav-text" href="index.php">Home</a>
+				<a class="nav-link nav-text" href="index.php" id="home">Home</a>
 			</li>
 			<li class="nav-item" data-toggle="modal" data-target="#login-modal">
-				<a class="nav-link nav-text" href="#">Shop</a>
+				<a class="nav-link nav-text" href="#" id="shop">Shop</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-text" href="#">League</a>
-			</li>
+			
 		</ul>
 
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item" data-toggle="modal" data-target="#login-modal">
-				<a class="nav-link nav-text" href="#">Login</a>
+				<a class="nav-link nav-text" href="#" id="login">Login</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#register-modal">Register</a>
+				<a class="nav-link nav-text" href="#" data-toggle="modal" data-target="#register-modal" id="register">Register</a>
 			</li>
 			
 		</ul>

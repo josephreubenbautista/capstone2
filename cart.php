@@ -1,11 +1,26 @@
 <?php
 	session_start();
+	if (!isset($_SESSION['logged_in_user'])||$_SESSION['logged_in_role']==2) {
+		header('location: index.php');
+		$_SESSION['error_message'] = "Unauthorized! Please log in.";
+	}
+	
 	function get_title(){
 		echo "Jcube Basketball | Cart";
 	}
 	
 	function get_content_user(){
 		require "connection.php";
+		$id = $_SESSION['logged_in_id'];
+		$addr="";
+		$cont="";
+		$usersql = "SELECT * FROM users WHERE id = $id";
+		$userresult = mysqli_query($conn, $usersql);
+		foreach ($userresult as $rows) {
+			extract($rows);
+			$addr = "$address";
+			$cont = "$contact_number";
+		}
 ?>
 
 		<h2>Cart</h2>
@@ -35,18 +50,24 @@
 							</div>
 							<div class="col-lg-8">
 								<div class="row item-details" >
-									<p class="col-lg-6"><strong>Name: </strong><span><?php echo $name; ?></span></p> 
-									<p class="col-lg-6"><strong>Quantity: </strong><span id="qty<?= $id ?>"><?php echo $quantity; ?></span></p> 
-									<p class="col-lg-6"><strong>Price: </strong><span><?php echo $price; ?></span></p> 
-									<p class="col-lg-6"><strong>Sub-Total: </strong><span id="sub<?= $id ?>"><?php echo number_format($sub,2); ?></span></p> 
+									<p class="col-lg-6 colored"><strong>Name: </strong><span><?php echo $name; ?></span></p> 
+									<p class="col-lg-6 colored"><strong>Quantity: </strong><span id="qty<?= $id ?>"><?php echo $quantity; ?></span></p> 
+									<p class="col-lg-6 colored"><strong>Price: </strong><span><?php echo $price; ?></span></p> 
+									<p class="col-lg-6 colored"><strong>Sub-Total: </strong><span id="sub<?= $id ?>"><?php echo number_format($sub,2); ?></span></p> 
 								
 									<div class="col-lg-12  btn-group">
 									
-										<input type="number" name="qty" value="<?php echo $quantity; ?>" class="form-control" id="cart-item-qty<?= $id  ?>">
+										<input type="number" min="1" name="qty" value="<?php echo $quantity; ?>" class="form-control" id="cart-item-qty<?= $id  ?>">
+										<input type="hidden" min="1" name="hidden" value="<?php echo $quantity; ?>" class="form-control" id="hidden-item-qty<?= $id  ?>">
 
 										<button class="btn btn-primary cart-btn-update" type="button" data-index="<?php echo $id; ?>">Update</button>
 
 										<button class="btn btn-danger cart-btn-remove" type="button" data-index="<?php echo $id; ?>" data-toggle="modal" data-target="#delete-alert">Remove</button>
+									
+									</div>
+									<div class="col-lg-12 ">
+									
+										<span class="error_message" id="errormessages<?= $id  ?>"></span>
 									
 									</div>
 								</div>
@@ -63,7 +84,10 @@
 					$totalitems = 0;
 					$totalquantity = 0;
 					$total = 0;
-					echo "NO ITEMS IN CART.";
+					?>
+					<h5 class="colored">NO ITEMS IN THE CART.</h5>
+<?php
+					
 				}
 ?>
 
@@ -71,32 +95,33 @@
 			
 
 
-			<div class="col-lg-4 guide">
-				<div class="card bg-light mb-3">
+			<div class="col-lg-4 guide" >
+				<?php if(isset($_SESSION['item-quantity'])) {?>
+				<div class="card bg-light mb-3"  >
 					<div class="card-header">
 						<h4>Order Details</h4>
 					</div>
 					<div class="card-body">
 						<p class="card-text">
-							<table>
+							<table class="black">
 								<tr>
-									<th>Total Items:</th>
-									<td>&nbsp;</td>
-									<td id="total-items"><?php echo $totalitems; ?></td>
+									<th class="black">Total Items:</th>
+									<td class="black">&nbsp;</td>
+									<td id="total-items" class="black"><?php echo $totalitems; ?></td>
 								</tr>
 								<tr>
-									<th>Total Quantity:</th>
-									<td>&nbsp;</td>
-									<td id="total-quantity"><?php echo $totalquantity; ?></td>
+									<th class="black">Total Quantity:</th>
+									<td class="black">&nbsp;</td>
+									<td id="total-quantity" class="black"><?php echo $totalquantity; ?></td>
 								</tr>
 								<tr>
-									<th>Total Price:</th>
-									<td>&nbsp;</td>
-									<td id="total-price"><?php echo number_format($total,2); ?></td>
+									<th class="black">Total Price:</th>
+									<td class="black">&nbsp;</td>
+									<td id="total-price" class="black"><?php echo number_format($total,2); ?></td>
 								</tr>
 							</table>
 							<div class="btn-group float-right">
-								<button id="btn-checkout" class="btn btn-success " type="button" data-toggle="modal" data-target="#checkout-form" <?php if(!isset($_SESSION['item-quantity'])) echo "disabled"; ?>>Checkout</button>
+								<button id="btn-checkout" class="btn btn-success " type="button" data-toggle="modal" data-target="#checkout-form" >Checkout</button>
 								<button class="btn btn-danger " type="button" data-toggle="modal" data-target="#empty-alert">Empty Cart</button>
 							</div>
 						</p>
@@ -104,7 +129,7 @@
 
 					
 				</div>
-				
+				<?php }?>
 			</div>
 
 
@@ -134,11 +159,11 @@
 							</div>
 
 							<div class="input-group">
-								<textarea class="form-control" id="addresscart" name="address" placeholder="Delivery Address. Where do you want us to deliver your order?"></textarea><span></span>
+								<textarea class="form-control" id="addresscart" name="address" placeholder="Delivery Address. Where do you want us to deliver your order?" ><?php echo $addr; ?></textarea><span></span>
 							</div>
 
 							<div class="input-group">
-								<input type="number" class="form-control" id="contact-number" name="contactnumber" placeholder="0915 XXX XXXX">
+								<input type="number" class="form-control" id="contact-number" name="contactnumber" placeholder="0915 XXX XXXX" value="<?= $cont ?>">
 							</div>
 							<div class="input-group">
 								<select class="form-control" id="payment-method" name="paymentmethod">

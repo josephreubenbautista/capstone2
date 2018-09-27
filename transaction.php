@@ -1,5 +1,9 @@
 <?php 
 	session_start();
+	if (!isset($_SESSION['logged_in_user'])) {
+		header('location: index.php');
+		$_SESSION['error_message'] = "Unauthorized! Please log in.";
+	}
 	
 	function get_title(){
 		echo "Jcube Basketball | Transactions";
@@ -152,10 +156,10 @@
 			<nav class="nav col-lg-12" id="sort-filter">
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Status:</a>
+						<a href="#" class="nav-link disabled colored">Status:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/filter_status.php?status=0" class="nav-link 
+						<a href="controllers/filter_status.php?status=0" class="colored nav-link 
 						<?php 
 							if (isset($_SESSION['filtering-status'])){
 								$statusid = $_SESSION['filtering-status'];
@@ -179,7 +183,7 @@
 
 ?>
 					<li class="nav-item">
-						<a href="controllers/filter_status.php?status=<?= $id ?>" class="nav-link 
+						<a href="controllers/filter_status.php?status=<?= $id ?>" class="colored nav-link 
 							<?php 
 							if (isset($_SESSION['filtering-status'])){
 								$statusid = $_SESSION['filtering-status'];
@@ -202,10 +206,10 @@
 
 				<ul class="nav nav-tabs ml-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Payment Method:</a>
+						<a href="#" class="nav-link disabled colored">Payment Method:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/filter_payment.php?pay=0" class="nav-link 
+						<a href="controllers/filter_payment.php?pay=0" class="nav-link colored 
 						<?php 
 							if (isset($_SESSION['filtering-payment'])){
 								$methodid = $_SESSION['filtering-payment'];
@@ -229,7 +233,7 @@
 
 ?>
 					<li class="nav-item">
-						<a href="controllers/filter_payment.php?pay=<?= $id ?>" class="nav-link 
+						<a href="controllers/filter_payment.php?pay=<?= $id ?>" class="colored nav-link 
 							<?php 
 							if (isset($_SESSION['filtering-payment'])){
 								$methodid = $_SESSION['filtering-payment'];

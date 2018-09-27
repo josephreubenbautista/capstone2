@@ -7,6 +7,47 @@
 	
 }
 
+body{
+	/*background-image: url("../images/carousel/background.jpg");*/
+
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+
+
+
+.nav-item:hover{
+	background-color: rgba(119, 136, 153, 0.8);
+	border-radius: 5px;
+
+}
+
+#background{
+	background-color: rgba(119, 136, 153, 0.8);
+    border-radius: 20px;
+    color: rgb(255, 250, 240);
+    padding: 25px;
+    min-height: 600px;
+}
+
+.navi{
+	padding: 2px;
+	background-color: rgba(119, 136, 153, 0.8);
+	border-radius: 5px;
+}
+
+#home, #shop, #transaction, #cart, #logout, #products, #login, #register, #user, .colored, h2, th, tr {
+	color: rgb(255, 250, 240);
+}
+
+.black {
+	color: black;
+}
+
+
 #spaced{
 	height: 100px;
 
@@ -44,6 +85,11 @@
 #product-list{
 	/*margin-left: 20px;*/
 	padding: 10px;
+	background-color: rgba(119, 136, 153, 0.8);
+	 border-radius: 20px;
+    color: rgb(255, 250, 240);
+    padding: 25px;
+    /*min-height: 600px;*/
 }
 
 #product-space{
@@ -124,4 +170,31 @@
 	padding: 20px;
 	background-color: rgba(60,60,60,0.7);
 	border-radius: 10px;
+}
+
+
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    min-height: 60px;
+    /*line-height: 60px;*/
+    background-color: #030813;
+    margin-top: 150px;
+    padding: 10px;
+    color: rgb(255, 250, 240);
+}
+#site{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+#reuben{
+	background-color: #887F80;
+}
+
+body{
+	background-color: #333333;
 }

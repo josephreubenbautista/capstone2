@@ -70,46 +70,62 @@ $('.cart-btn-update').click((e)=>{
 
 	let oldSub = parseInt($('#sub'+id).text().split(',').join(''));
 	let oldTotal = parseInt($('#total-price').text().split(',').join(''));
-			
+
+	let olditemqty = $('#hidden-item-qty'+id).val();
 	let quantity = $('#cart-item-qty'+id).val();
+
+	if (quantity.length==0){
+		$('#errormessages'+id).html('Please Input valid quantity');
+		$('#cart-item-qty'+id).val(olditemqty);
+	}else{
+
+		if(quantity<=0){
+			$('#errormessages'+id).html('Please Input valid quantity');
+			$('#cart-item-qty'+id).val(olditemqty);
+		}else{
+			$('#errormessages'+id).html('');
+			$('#hidden-item-qty'+id).val(quantity);
+			$.ajax({
+				url : "controllers/update_the_cart.php",
+				data : {id : id, quantity : quantity},
+				method: "POST",
+			}).done(data =>{
+				data = JSON.parse(data);
+				let product = data.product;
+				$('#badge-cart').html(data.quantity);
+				$('#total-quantity').html(data.quantity);
+
+				let sub = 0;
+				let total=0;
+				product.forEach((item)=>{
+					sub=quantity*item['price'];
+
+					$('#sub'+id).html(sub.toFixed(2));
+					$('#qty'+id).html(quantity);
+								
+					total = oldTotal-oldSub+sub;
+					console.log(total);
+					$('#total-price').html(total.toFixed(2));
+								
+					if(quantity!=oldQty){
+						// console.log(oldQty);
+						$('#msg').html('Successfully updated quantity of '+item['name'])
+					}else{
+						$('#msg').html('The quantity you have submitted is the same as the quantity you originally ordered.')
+					}
+
+
+							
+					$('#msgBox').show();
+				});
+
+							
+
+			});
+			
+		}
+	}
 				
-	$.ajax({
-		url : "controllers/update_the_cart.php",
-		data : {id : id, quantity : quantity},
-		method: "POST",
-	}).done(data =>{
-		data = JSON.parse(data);
-		let product = data.product;
-		$('#badge-cart').html(data.quantity);
-		$('#total-quantity').html(data.quantity);
-
-		let sub = 0;
-		let total=0;
-		product.forEach((item)=>{
-			sub=quantity*item['price'];
-
-			$('#sub'+id).html(sub.toFixed(2));
-			$('#qty'+id).html(quantity);
-						
-			total = oldTotal-oldSub+sub;
-			console.log(total);
-			$('#total-price').html(total.toFixed(2));
-						
-			if(quantity!=oldQty){
-				// console.log(oldQty);
-				$('#msg').html('Successfully updated quantity of '+item['name'])
-			}else{
-				$('#msg').html('The quantity you have submitted is the same as the quantity you originally ordered.')
-			}
-
-
-					
-			$('#msgBox').show();
-		});
-
-					
-
-	});
 
 });
 

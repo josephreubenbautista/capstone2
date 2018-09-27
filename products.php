@@ -1,6 +1,9 @@
 <?php 
 	session_start();
-	
+	if (!isset($_SESSION['logged_in_user'])) {
+		header('location: index.php');
+		$_SESSION['error_message'] = "Unauthorized! Please log in.";
+	}
 	function get_title(){
 		echo "Jcube Basketball | Products";
 	}
@@ -8,16 +11,17 @@
 	function get_content_user(){
 		require "connection.php";
 ?>
+
 		<h2>Products</h2>
 		<hr class="my-3">
-		<div class="row">
+		<div class="row" >
 			<nav class="nav col-lg-12" id="sort-filter">
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Filter:</a>
+						<a href="#" class="nav-link colored disabled">Filter:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=0" class="nav-link 
+						<a href="controllers/filter.php?filter=0" class="nav-link colored
 						<?php 
 							if (isset($_SESSION['filtering'])){
 								$categoryid = $_SESSION['filtering'];
@@ -41,7 +45,7 @@
 
 ?>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=<?= $id ?>" class="nav-link 
+						<a href="controllers/filter.php?filter=<?= $id ?>" class="nav-link  colored
 							<?php 
 							if (isset($_SESSION['filtering'])){
 								$categoryid = $_SESSION['filtering'];
@@ -62,10 +66,10 @@
 
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Sort:</a>
+						<a href="#" class="nav-link colored disabled">Sort:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/sort.php?sort=ASC" class="nav-link 
+						<a href="controllers/sort.php?sort=ASC" class="nav-link colored
 						<?php 
 							if (isset($_SESSION['sorting'])){
 				              $sorted = $_SESSION['sorting'];
@@ -77,7 +81,7 @@
             			">Low to High</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/sort.php?sort=DESC" class="nav-link
+						<a href="controllers/sort.php?sort=DESC" class="nav-link colored
 						<?php 
 							if (isset($_SESSION['sorting'])){
 				              $sorted = $_SESSION['sorting'];
@@ -243,10 +247,10 @@
 			<nav class="nav">		
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Filter:</a>
+						<a href="#" class="nav-link disabled colored">Filter:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=0" class="nav-link 
+						<a href="controllers/filter.php?filter=0" class="colored nav-link 
 						<?php 
 							if (isset($_SESSION['filtering'])){
 								$categoryid = $_SESSION['filtering'];
@@ -270,7 +274,7 @@
 
 ?>
 					<li class="nav-item">
-						<a href="controllers/filter.php?filter=<?= $id ?>" class="nav-link 
+						<a href="controllers/filter.php?filter=<?= $id ?>" class="nav-link colored
 							<?php 
 							if (isset($_SESSION['filtering'])){
 								$categoryid = $_SESSION['filtering'];
@@ -291,10 +295,10 @@
 
 				<ul class="nav nav-tabs mr-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link disabled">Sort:</a>
+						<a href="#" class="nav-link colored disabled">Sort:</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/sort.php?sort=ASC" class="nav-link 
+						<a href="controllers/sort.php?sort=ASC" class="colored nav-link 
 						<?php 
 							if (isset($_SESSION['sorting'])){
 				              $sorted = $_SESSION['sorting'];
@@ -306,7 +310,7 @@
             			">Low to High</a>
 					</li>
 					<li class="nav-item">
-						<a href="controllers/sort.php?sort=DESC" class="nav-link
+						<a href="controllers/sort.php?sort=DESC" class="colored nav-link
 						<?php 
 							if (isset($_SESSION['sorting'])){
 				              $sorted = $_SESSION['sorting'];
@@ -369,7 +373,7 @@
 								 	?>						 	
 								 </td>
 								<td><?php echo $description;?></td>
-								<td><img src="<?= $image_path ?>" class="img-fluid product-image"></td>
+								<td><img src="<?= $image_path ?>" class="img-fluid product-image" alt="<?= $name ?>"></td>
 								<td class="btn-group">
 									<button type="button" class="btn btn-primary edit-btn" data-index="<?= $id ?>" data-toggle="modal" data-target="#edit-item">Edit</button>
 									<button type="button" class="btn btn-danger delete-btn" data-index="<?= $id ?>" data-toggle="modal" data-target="#delete-item">Delete</button>

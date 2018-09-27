@@ -4,9 +4,9 @@
 
 	$address = $_POST['address'];
 	$transaction_code=$_POST['transactioncode'];
-	$contact_number='NULL';
+	$contact_number='';
 	if(isset($_POST['contactnumber'])){
-		$contactnumber=$_POST['contactnumber'];
+		$contact_number=$_POST['contactnumber'];
 	}
 
 	$payment_method = $_POST['paymentmethod'];

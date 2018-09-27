@@ -102,7 +102,7 @@ function get_content(){
 		      <img src="assets/images/carousel/7.jpg" alt="7.jpg" class="carousel-image">
 		      <div class="carousel-caption caption-box ">
 		        <h3>Jcube Basketball</h3>
-		        <p>The Bae.</p>
+		        <p>Where you can be an instant BAE.</p>
 		      </div>   
 		    </div>
 		  </div>
@@ -125,6 +125,34 @@ function get_content(){
 
 function get_content_admin(){
 
+
+				if(isset($_SESSION['error_message'])){
+			?>
+					<div class="alert alert-danger" role="alert">
+						<h4 class="alert-heading">ERROR</h4>
+						<p><?php echo $_SESSION['error_message'] ?></p>
+					</div>
+
+			<?php
+
+
+					unset($_SESSION['error_message']);
+				}
+				if(isset($_SESSION['success_message'])){
+			?>
+					<div class="alert alert-success" role="alert">
+						<h4 class="alert-heading">SUCCESS</h4>
+						<p><?php echo $_SESSION['success_message'] ?></p>
+
+					</div>
+
+			<?php
+
+					unset($_SESSION['success_message']);
+				}
+
+
+		
 	
 ?>
 
@@ -187,7 +215,7 @@ function get_content_admin(){
 		      <img src="assets/images/carousel/7.jpg" alt="7.jpg" class="carousel-image">
 		      <div class="carousel-caption caption-box ">
 		        <h3>Jcube Basketball</h3>
-		        <p>The Bae.</p>
+		        <p>Where you can be an instant BAE.</p>
 		      </div>   
 		    </div>
 		  </div>
@@ -306,7 +334,7 @@ function get_content_user(){
 		      <img src="assets/images/carousel/7.jpg" alt="7.jpg" class="carousel-image">
 		      <div class="carousel-caption caption-box ">
 		        <h3>Jcube Basketball</h3>
-		        <p>The Bae.</p>
+		        <p>Where you can be an instant BAE.</p>
 		      </div>   
 		    </div>
 		  </div>
